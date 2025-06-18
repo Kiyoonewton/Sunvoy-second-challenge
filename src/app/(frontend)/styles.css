@@ -162,3 +162,24 @@ svg {
     }
   }
 }
+
+/* src/lexical/features/mark/styles.css */
+/* src/app/globals.css or wherever your global styles are */
+
+/* Style for custom mark nodes */
+.mark-highlight,
+mark.mark-highlight,
+[data-mark-ids],
+.lexical-editor .mark-highlight {
+  background-color: #ffeb3b;
+  color: #000;
+  padding: 0 2px;
+  border-radius: 2px;
+  text-decoration: none;
+}
+
+/* Ensure proper display in the editor */
+.lexical-editor span.mark-highlight {
+  background-color: #ffeb3b;
+  color: #000;
+}
