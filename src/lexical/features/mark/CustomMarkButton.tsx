@@ -1,5 +1,4 @@
 'use client'
-// customMarkFeature.ts
 import type { TextFormatType, EditorConfig } from 'lexical';
 import { TextNode } from 'lexical';
 import { $getSelection, $isRangeSelection } from 'lexical';
@@ -10,9 +9,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHighlighter } from '@fortawesome/free-solid-svg-icons'
 
 const CUSTOM_MARK_FORMAT: TextFormatType = 'highlight';
+const HIGHLIGHT_COLOR = '#b3ffd6';
 
 // Custom toolbar button component
-const CustomMarkButton: React.FC<{ clientProps: Record<string, unknown> }> = () => {
+const CustomMarkButton: React.FC = () => {
   const [editor] = useLexicalComposerContext();
   const [isActive, setIsActive] = React.useState(false);
 
@@ -61,11 +61,10 @@ export class CustomTextNode extends TextNode {
     const element = super.createDOM(config);
 
     if (this.hasFormat(CUSTOM_MARK_FORMAT)) {
-      element.style.backgroundColor = 'yellow';
+      element.style.backgroundColor = HIGHLIGHT_COLOR;
       element.style.padding = '2px 4px';
       element.style.borderRadius = '3px';
     }
-
     return element;
   }
 
@@ -73,7 +72,7 @@ export class CustomTextNode extends TextNode {
     const isUpdated = super.updateDOM(prevNode, dom, config);
 
     if (this.hasFormat(CUSTOM_MARK_FORMAT)) {
-      dom.style.backgroundColor = 'yellow';
+      dom.style.backgroundColor = HIGHLIGHT_COLOR;
       dom.style.padding = '2px 4px';
       dom.style.borderRadius = '3px';
     } else {
@@ -81,13 +80,12 @@ export class CustomTextNode extends TextNode {
       dom.style.padding = '';
       dom.style.borderRadius = '';
     }
-
     return isUpdated;
   }
 }
 
 // Feature with custom node
-export const CustomMarkWithNodeFeatureClient = (props: { [key: string]: string }) => {
+export const CustomMarkWithNodeFeatureClient = (props: { [key: string]: string } = {}) => {
   return {
     clientFeatureProps: props,
     feature: {

@@ -8,15 +8,15 @@ const LexicalToHTMLConverter = () => {
   const [error, setError] = useState('');
 
   const FORMAT_TYPES = {
-    BOLD: 1,        
-    ITALIC: 2,      
-    UNDERLINE: 4,   
-    STRIKETHROUGH: 8, 
-    CODE: 16,       
-    LINK: 32,       
-    SUBSCRIPT: 64,  
-    HIGHLIGHT: 128, 
-    SUPERSCRIPT: 256 
+    BOLD: 1,
+    ITALIC: 2,
+    STRIKETHROUGH: 4,
+    UNDERLINE: 8,
+    CODE: 16,
+    LINK: 32,
+    SUBSCRIPT: 64,
+    HIGHLIGHT: 128,
+    SUPERSCRIPT: 256
   };
 
   const FORMAT_TO_TAG = {
@@ -42,6 +42,12 @@ const LexicalToHTMLConverter = () => {
 
     return activeFormats.reduceRight((acc, formatValue) => {
       const tag = FORMAT_TO_TAG[formatValue];
+
+      // Add specific style for highlight
+      if (formatValue === FORMAT_TYPES.HIGHLIGHT) {
+        return `<${tag} style="background-color: #b3ffd6">${acc}</${tag}>`;
+      }
+
       return tag ? `<${tag}>${acc}</${tag}>` : acc;
     }, text);
   };
@@ -50,8 +56,8 @@ const LexicalToHTMLConverter = () => {
     content: string | { root: { children: Array<{ children?: Array<{ text?: string; format?: number }> }> } }
   ) => {
     try {
-      const parsedContent = typeof content === 'string' 
-        ? JSON.parse(content) 
+      const parsedContent = typeof content === 'string'
+        ? JSON.parse(content)
         : content;
 
       if (!parsedContent.root || !parsedContent.root.children) {
@@ -65,10 +71,10 @@ const LexicalToHTMLConverter = () => {
             const htmlParts = paragraph.children.map((child: { text?: string; format?: number }) => {
               const text = child.text || '';
               const format = child.format || 0;
-              
+
               return resolveFormats(format, text);
             });
-            
+
             return `<p>${htmlParts.join('')}</p>`;
           }
           return '';

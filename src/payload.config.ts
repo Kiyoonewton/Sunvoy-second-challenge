@@ -26,6 +26,7 @@ export default buildConfig({
     features: ({ defaultFeatures }) => {
 
       const feature = [...defaultFeatures]
+      feature.splice(4, 1)
       feature.splice(5, 0, {
         serverFeatureProps: undefined,
         key: 'highlight',
