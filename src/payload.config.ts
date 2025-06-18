@@ -11,8 +11,6 @@ import sharp from 'sharp'
 import { Users } from './collections/Users'
 import { Media } from './collections/Media'
 import { Posts } from './collections/Posts'
-import { MarkFeature } from './lexical/features/mark' // Import from index
-
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
@@ -27,16 +25,17 @@ export default buildConfig({
   editor: lexicalEditor({
     features: ({ defaultFeatures }) => {
 
-      const feature = [
-        ...defaultFeatures,
-        // MarkFeature,
-      ]
-
-      console.log('====================================');
-      console.log('Loading custom features for Lexical editor...', feature);
-      console.log('====================================');
-      return feature
-    },
+      const feature = [...defaultFeatures]
+      feature.splice(5, 0, {
+        serverFeatureProps: undefined,
+        key: 'highlight',
+        feature: {
+          ClientFeature: '@/lexical/features/mark/CustomMarkButton.tsx#CustomMarkWithNodeFeatureClient',
+          sanitizedServerFeatureProps: undefined
+        },
+      })
+      return feature;
+    }
   }),
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {
