@@ -36,7 +36,7 @@ const LexicalToHTMLConverter = () => {
 
     const activeFormats = Object.entries(FORMAT_TYPES)
       .filter(([_, value]) => format & value)
-      .map(([key, value]) => value);
+      .map(([_, value]) => value);
 
     if (activeFormats.length === 0) return text;
 
@@ -46,7 +46,9 @@ const LexicalToHTMLConverter = () => {
     }, text);
   };
 
-  const convertToHTML = (content: string | { root: { children: any[] } }) => {
+  const convertToHTML = (
+    content: string | { root: { children: Array<{ children?: Array<{ text?: string; format?: number }> }> } }
+  ) => {
     try {
       const parsedContent = typeof content === 'string' 
         ? JSON.parse(content) 
