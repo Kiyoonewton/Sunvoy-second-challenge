@@ -1,6 +1,6 @@
 'use client'
 // customMarkFeature.ts
-import type { TextFormatType } from 'lexical';
+import type { TextFormatType, EditorConfig } from 'lexical';
 import { TextNode } from 'lexical';
 import { $getSelection, $isRangeSelection } from 'lexical';
 import { FORMAT_TEXT_COMMAND } from 'lexical';
@@ -12,7 +12,7 @@ import { faHighlighter } from '@fortawesome/free-solid-svg-icons'
 const CUSTOM_MARK_FORMAT: TextFormatType = 'highlight';
 
 // Custom toolbar button component
-const CustomMarkButton: React.FC<{ clientProps: any }> = ({ clientProps }) => {
+const CustomMarkButton: React.FC<{ clientProps: Record<string, unknown> }> = () => {
   const [editor] = useLexicalComposerContext();
   const [isActive, setIsActive] = React.useState(false);
 
@@ -57,7 +57,7 @@ export class CustomTextNode extends TextNode {
     return new CustomTextNode(node.__text, node.__key);
   }
 
-  createDOM(config: any): HTMLElement {
+  createDOM(config: EditorConfig): HTMLElement {
     const element = super.createDOM(config);
 
     if (this.hasFormat(CUSTOM_MARK_FORMAT)) {
@@ -69,7 +69,7 @@ export class CustomTextNode extends TextNode {
     return element;
   }
 
-  updateDOM(prevNode: this, dom: HTMLElement, config: any): boolean {
+  updateDOM(prevNode: this, dom: HTMLElement, config: EditorConfig): boolean {
     const isUpdated = super.updateDOM(prevNode, dom, config);
 
     if (this.hasFormat(CUSTOM_MARK_FORMAT)) {
