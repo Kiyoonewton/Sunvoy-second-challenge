@@ -9,7 +9,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHighlighter } from '@fortawesome/free-solid-svg-icons'
 
 const CUSTOM_MARK_FORMAT: TextFormatType = 'highlight';
-const HIGHLIGHT_COLOR = '#b3ffd6';
+const HIGHLIGHT_COLOR = 'yellow';
 
 // Custom toolbar button component
 const CustomMarkButton: React.FC = () => {

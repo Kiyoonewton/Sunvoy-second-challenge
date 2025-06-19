@@ -139,6 +139,21 @@ export interface User {
 export interface Media {
   id: string;
   alt: string;
+  content?: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
   updatedAt: string;
   createdAt: string;
   url?: string | null;
@@ -158,6 +173,9 @@ export interface Media {
 export interface Post {
   id: string;
   title: string;
+  /**
+   * Rich text content with toolbar
+   */
   content?: {
     root: {
       type: string;
@@ -258,6 +276,7 @@ export interface UsersSelect<T extends boolean = true> {
  */
 export interface MediaSelect<T extends boolean = true> {
   alt?: T;
+  content?: T;
   updatedAt?: T;
   createdAt?: T;
   url?: T;

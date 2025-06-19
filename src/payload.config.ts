@@ -24,10 +24,8 @@ export default buildConfig({
   collections: [Users, Media, Posts],
   editor: lexicalEditor({
     features: ({ defaultFeatures }) => {
-
       const feature = [...defaultFeatures]
-      feature.splice(4, 1)
-      feature.splice(5, 0, {
+      feature.splice(4, 0, {
         serverFeatureProps: undefined,
         key: 'highlight',
         feature: {
@@ -35,7 +33,8 @@ export default buildConfig({
           sanitizedServerFeatureProps: undefined
         },
       })
-      return feature;
+
+      return feature
     }
   }),
   secret: process.env.PAYLOAD_SECRET || '',

@@ -42,12 +42,6 @@ const LexicalToHTMLConverter = () => {
 
     return activeFormats.reduceRight((acc, formatValue) => {
       const tag = FORMAT_TO_TAG[formatValue];
-
-      // Add specific style for highlight
-      if (formatValue === FORMAT_TYPES.HIGHLIGHT) {
-        return `<${tag} style="background-color: #b3ffd6">${acc}</${tag}>`;
-      }
-
       return tag ? `<${tag}>${acc}</${tag}>` : acc;
     }, text);
   };
