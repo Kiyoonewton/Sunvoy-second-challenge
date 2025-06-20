@@ -1,3 +1,45 @@
-.fixed-toolbar {
-  width: fit-content !important;
+.footnote-marker {
+  font-size: 0.75em;
+  vertical-align: super;
+  cursor: pointer;
+  color: #0066cc;
+  text-decoration: none;
+}
+
+.footnote-editor {
+  position: absolute;
+  z-index: 1000;
+  background: white;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  opacity: 0;
+  transform: translate(-10000px, -10000px);
+  transition: opacity 0.2s;
+}
+
+.footnote-preview {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.footnote-actions {
+  display: flex;
+  gap: 4px;
+}
+
+.footnote-edit,
+.footnote-remove {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 2px;
+}
+
+.footnote-edit:hover,
+.footnote-remove:hover {
+  background: #f0f0f0;
 }

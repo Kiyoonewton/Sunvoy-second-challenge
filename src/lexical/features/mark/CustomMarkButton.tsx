@@ -1,3 +1,5 @@
+// CustomMarkButton.tsx
+
 'use client'
 import type { TextFormatType, EditorConfig } from 'lexical';
 import { TextNode } from 'lexical';
@@ -84,29 +86,32 @@ export class CustomTextNode extends TextNode {
   }
 }
 
-// Feature with custom node
+// Feature with custom node - FIXED VERSION
 export const CustomMarkWithNodeFeatureClient = (props: { [key: string]: string } = {}) => {
+  const toolbarConfig = {
+    groups: [
+      {
+        key: 'format',
+        type: 'buttons' as const,
+        items: [
+          {
+            key: 'customMark',
+            Component: CustomMarkButton,
+            order: 5,
+          },
+        ],
+      },
+    ],
+  };
+
   return {
     clientFeatureProps: props,
     feature: {
       nodes: [CustomTextNode],
       enableFormats: [CUSTOM_MARK_FORMAT],
 
-      toolbarInline: {
-        groups: [
-          {
-            key: 'format',
-            type: 'buttons',
-            items: [
-              {
-                key: 'customMark',
-                Component: CustomMarkButton,
-                order: 5,
-              },
-            ],
-          },
-        ],
-      },
+      toolbarInline: toolbarConfig,
+      toolbarFixed: toolbarConfig,
     },
   };
 };

@@ -1,6 +1,6 @@
-// import { configureMarkFeature } from '@/lexical/features/mark/markFeature'
-// import { lexicalEditor } from '@payloadcms/richtext-lexical'
-import { FixedToolbarFeature, lexicalEditor } from '@payloadcms/richtext-lexical'
+'use strict'
+import { FootnoteFeature } from '@/lexical/features/footnote/server'
+import { FixedToolbarFeature, HTMLConverterFeature, lexicalEditor, lexicalHTML, LinkFeature } from '@payloadcms/richtext-lexical'
 import type { CollectionConfig } from 'payload'
 
 export const Posts: CollectionConfig = {
@@ -25,14 +25,12 @@ export const Posts: CollectionConfig = {
         features: ({ defaultFeatures }) => {
           const features = [...defaultFeatures]
 
-          // Remove subscript and superscript features
-          // These are typically in the default features - we filter them out
           const filteredFeatures = features.filter(feature =>
             feature.key !== 'subscript' &&
             feature.key !== 'superscript'
           )
 
-          // Add your existing highlight feature
+          // Add your existing highlight feature at index 4
           filteredFeatures.splice(4, 0, {
             serverFeatureProps: undefined,
             key: 'highlight',
@@ -42,8 +40,8 @@ export const Posts: CollectionConfig = {
             }),
           })
 
-          // Add the footnote feature
-          filteredFeatures.push({
+          // Add the footnote feature before the last item (toolbarFixed)
+          filteredFeatures.splice(1, 0, {
             serverFeatureProps: undefined,
             key: 'footnote',
             feature: async () => ({
@@ -52,28 +50,54 @@ export const Posts: CollectionConfig = {
             }),
           })
 
-
           console.log('====================================');
           console.log([...filteredFeatures, FixedToolbarFeature()]);
           console.log('====================================');
 
-          // If you need to use editorConfig, obtain it from the lexicalEditor context or pass it as an argument.
-          // For now, we'll remove the usage to fix the error, as editorConfig is not defined in this scope.
-          // If you need to resolve features asynchronously, ensure you have access to the required config.
-
-          // const resolvedFeatures = await Promise.all(
-          //   filteredFeatures.map(async (featureItem) => ({
-          //     ...featureItem,
-          //     feature:
-          //       typeof featureItem.feature === 'function'
-          //         ? await featureItem.feature(editorConfig)
-          //         : featureItem.feature,
-          //   }))
-          // );
-          return [...filteredFeatures, FixedToolbarFeature()]
-
+          // Configure FixedToolbarFeature to include custom highlight button
+          return [...filteredFeatures, FixedToolbarFeature(), LinkFeature({
+            fields: [
+              {
+                name: 'url',
+                type: 'text',
+                required: true,
+              }]
+          }),
+          // Add custom fields to footnotes
+          FootnoteFeature({
+            fields: [
+              {
+                name: 'content',
+                type: 'richText',
+                required: true,
+              },
+              {
+                name: 'number',
+                type: 'number',
+                required: true,
+              },
+              {
+                name: 'category',
+                type: 'select',
+                options: [
+                  { label: 'Citation', value: 'citation' },
+                  { label: 'Explanation', value: 'explanation' },
+                  { label: 'Reference', value: 'reference' }
+                ]
+              },
+              {
+                name: 'author',
+                type: 'text',
+                label: 'Citation Author'
+              }
+            ]
+          }),
+          HTMLConverterFeature()]
         },
       }),
+    },
+    {
+      ...lexicalHTML('content', { name: 'html_content' }),
     },
   ],
 }

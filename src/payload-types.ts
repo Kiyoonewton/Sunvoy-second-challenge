@@ -191,6 +191,7 @@ export interface Post {
     };
     [k: string]: unknown;
   } | null;
+  html_content?: string | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -296,6 +297,7 @@ export interface MediaSelect<T extends boolean = true> {
 export interface PostsSelect<T extends boolean = true> {
   title?: T;
   content?: T;
+  html_content?: T;
   updatedAt?: T;
   createdAt?: T;
 }
