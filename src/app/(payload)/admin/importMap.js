@@ -21,9 +21,9 @@ import { BlockquoteFeatureClient as BlockquoteFeatureClient_e70f5e05f09f93e00b99
 import { UploadFeatureClient as UploadFeatureClient_e70f5e05f09f93e00b997edb1ef0c864 } from '@payloadcms/richtext-lexical/client'
 import { HorizontalRuleFeatureClient as HorizontalRuleFeatureClient_e70f5e05f09f93e00b997edb1ef0c864 } from '@payloadcms/richtext-lexical/client'
 import { InlineToolbarFeatureClient as InlineToolbarFeatureClient_e70f5e05f09f93e00b997edb1ef0c864 } from '@payloadcms/richtext-lexical/client'
+import { FootnoteFeatureClient as FootnoteFeatureClient_8c0ff1d9dc99f938d637b94adb460193 } from '@/lexical/features/footnote/client/index'
 import { FixedToolbarFeatureClient as FixedToolbarFeatureClient_e70f5e05f09f93e00b997edb1ef0c864 } from '@payloadcms/richtext-lexical/client'
 import { CustomMarkWithNodeFeatureClient as CustomMarkWithNodeFeatureClient_2e23557f4efad68638c37e27d2b1f859 } from '@/lexical/features/mark/CustomMarkButton.tsx'
-import { FootnoteFeatureClient as FootnoteFeatureClient_6d1a349fc9ceff8e6166220990cff416 } from '@/lexical/features/footnote/FootnoteButton.tsx'
 
 export const importMap = {
   "@payloadcms/richtext-lexical/rsc#RscEntryLexicalCell": RscEntryLexicalCell_44fe37237e0ebf4470c9990d8cb7b07e,
@@ -49,7 +49,7 @@ export const importMap = {
   "@payloadcms/richtext-lexical/client#UploadFeatureClient": UploadFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
   "@payloadcms/richtext-lexical/client#HorizontalRuleFeatureClient": HorizontalRuleFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
   "@payloadcms/richtext-lexical/client#InlineToolbarFeatureClient": InlineToolbarFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
+  "@/lexical/features/footnote/client/index#FootnoteFeatureClient": FootnoteFeatureClient_8c0ff1d9dc99f938d637b94adb460193,
   "@payloadcms/richtext-lexical/client#FixedToolbarFeatureClient": FixedToolbarFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
-  "@/lexical/features/mark/CustomMarkButton.tsx#CustomMarkWithNodeFeatureClient": CustomMarkWithNodeFeatureClient_2e23557f4efad68638c37e27d2b1f859,
-  "@/lexical/features/footnote/FootnoteButton.tsx#FootnoteFeatureClient": FootnoteFeatureClient_6d1a349fc9ceff8e6166220990cff416
+  "@/lexical/features/mark/CustomMarkButton.tsx#CustomMarkWithNodeFeatureClient": CustomMarkWithNodeFeatureClient_2e23557f4efad68638c37e27d2b1f859
 }

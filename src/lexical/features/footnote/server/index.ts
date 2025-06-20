@@ -1,13 +1,11 @@
-import type { Config, Field, SanitizedConfig } from 'payload'
-// import { sanitizeFields } from 'payload'
-import type { ClientProps } from '../client/index'
-// import { createServerFeature } from '../../../utilities/createServerFeature.js'
-import { FootnoteNode } from '../nodes/FootnoteNode.js'
-import { getFootnoteBaseFields } from './baseFields.js'
-import { footnoteValidation } from './validate.js'
-import { i18n } from './i18n.js'
+import type { Config, Field } from 'payload'
 import { sanitizeFields } from 'payload'
+import { i18n } from './i18n'
 import { createNode, createServerFeature } from '@payloadcms/richtext-lexical'
+import { ClientProps } from '../client'
+import { getFootnoteBaseFields } from './baseFields'
+import { footnoteValidation } from './validate'
+import { FootnoteNode } from '../nodes/FootnoteNode'
 
 export type FootnoteFeatureServerProps = {
   fields?: Field[]
@@ -25,7 +23,23 @@ export const FootnoteFeature = createServerFeature<
 
     const baseFields = getFootnoteBaseFields()
     const customFields = props.fields || []
-    const allFields = [...baseFields, ...customFields]
+
+    const fieldMap = new Map()
+
+    baseFields.forEach(field => {
+      if ('name' in field) {
+        fieldMap.set(field.name, field)
+      }
+    })
+
+    // Add custom fields (they can override base fields)
+    customFields.forEach(field => {
+      if ('name' in field) {
+        fieldMap.set(field.name, field)
+      }
+    })
+
+    const allFields = Array.from(fieldMap.values())
 
     const sanitizedFields = await sanitizeFields({
       config: _config as unknown as Config,
@@ -36,7 +50,7 @@ export const FootnoteFeature = createServerFeature<
     })
 
     return {
-      ClientFeature: '@payloadcms/richtext-lexical/client#FootnoteFeatureClient',
+      ClientFeature: '@/lexical/features/footnote/client/index#FootnoteFeatureClient',
       clientFeatureProps: {} as ClientProps,
       i18n,
       nodes: [

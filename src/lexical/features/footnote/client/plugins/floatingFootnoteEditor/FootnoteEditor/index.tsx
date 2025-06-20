@@ -1,6 +1,6 @@
 'use client'
 import React, { useCallback, useEffect, useRef, useState } from 'react'
-import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext.js'
+// import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext.js'
 import { mergeRegister } from '@lexical/utils'
 import { 
   $getSelection, 
@@ -13,10 +13,14 @@ import {
 import { useTranslation, EditIcon, CloseMenuIcon, formatDrawerSlug, useEditDepth } from '@payloadcms/ui'
 import type { Data, FormState } from 'payload'
 
-import { $isFootnoteNode, FootnoteNode } from '../../../../nodes/FootnoteNode.js'
-import type { FootnoteFields } from '../../../../nodes/types.js'
-import { TOGGLE_FOOTNOTE_WITH_MODAL_COMMAND } from './commands.js'
+// import { $isFootnoteNode, FootnoteNode } from '../../../../nodes/FootnoteNode.js'
+// import type { FootnoteFields } from '../../../../nodes/types.js'
+// import { TOGGLE_FOOTNOTE_WITH_MODAL_COMMAND } from './commands.js'
 import { FieldsDrawer, useEditorConfigContext, useLexicalDrawer } from '@payloadcms/richtext-lexical/client'
+import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext'
+import { $isFootnoteNode, FootnoteNode } from '@/lexical/features/footnote/nodes/FootnoteNode'
+import { TOGGLE_FOOTNOTE_WITH_MODAL_COMMAND } from './commands'
+import { FootnoteFields } from '@/lexical/features/footnote/nodes/types'
 
 export function FootnoteEditor({ anchorElem }: { anchorElem: HTMLElement }): React.ReactNode {
   const [editor] = useLexicalComposerContext()

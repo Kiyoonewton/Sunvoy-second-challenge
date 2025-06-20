@@ -19,9 +19,11 @@ import type {
     createCommand,
     ElementNode,
   } from 'lexical'
+import { FootnoteFields, SerializedFootnoteNode } from './types'
+import { FootnotePayload } from '../client/plugins/floatingFootnoteEditor/types'
   
-  import type { FootnotePayload } from '../client/plugins/floatingFootnoteEditor/types.js'
-  import type { FootnoteFields, SerializedFootnoteNode } from './types.js'
+  // import type { FootnotePayload } from '../client/plugins/floatingFootnoteEditor/types.js'
+  // import type { FootnoteFields, SerializedFootnoteNode } from './types.js'
   
   export class FootnoteNode extends ElementNode {
     __fields: FootnoteFields

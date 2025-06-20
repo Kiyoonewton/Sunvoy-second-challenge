@@ -1,11 +1,15 @@
 'use client'
 import type { Klass, LexicalNode } from 'lexical'
-import { FootnoteNode, TOGGLE_FOOTNOTE_COMMAND } from '../nodes/FootnoteNode.js'
-import { FootnotePlugin } from './plugins/footnote/index.js'
-import { TOGGLE_FOOTNOTE_WITH_MODAL_COMMAND } from './plugins/floatingFootnoteEditor/FootnoteEditor/commands.js'
+// import { FootnoteNode, TOGGLE_FOOTNOTE_COMMAND } from '../nodes/FootnoteNode.js'
+// import { FootnotePlugin } from './plugins/footnote/index.js'
+// import { TOGGLE_FOOTNOTE_WITH_MODAL_COMMAND } from './plugins/floatingFootnoteEditor/FootnoteEditor/commands.js'
 import { createClientFeature, toolbarFeatureButtonsGroupWithItems } from '@payloadcms/richtext-lexical/client'
-import { FloatingFootnoteEditorPlugin } from './plugins/floatingFootnoteEditor/FootnoteEditor/client/plugins/floatingFootnoteEditor/index.jsx'
+// import { FloatingFootnoteEditorPlugin } from './plugins/floatingFootnoteEditor/FootnoteEditor/client/plugins/floatingFootnoteEditor/index.jsx'
 import { ToolbarGroup } from '@payloadcms/richtext-lexical'
+import { FootnoteNode, TOGGLE_FOOTNOTE_COMMAND } from '../nodes/FootnoteNode'
+import { TOGGLE_FOOTNOTE_WITH_MODAL_COMMAND } from './plugins/floatingFootnoteEditor/FootnoteEditor/commands'
+import { FootnotePlugin } from './plugins/footnote'
+import { FloatingFootnoteEditorPlugin } from './plugins/floatingFootnoteEditor/FootnoteEditor/client/plugins/floatingFootnoteEditor'
 
 export type ClientProps = Record<string, never>
 

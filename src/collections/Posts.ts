@@ -50,9 +50,9 @@ export const Posts: CollectionConfig = {
             }),
           })
 
-          console.log('====================================');
-          console.log([...filteredFeatures, FixedToolbarFeature()]);
-          console.log('====================================');
+          // console.log('====================================');
+          // console.log([...filteredFeatures, FixedToolbarFeature()]);
+          // console.log('====================================');
 
           // Configure FixedToolbarFeature to include custom highlight button
           return [...filteredFeatures, FixedToolbarFeature(), LinkFeature({
@@ -70,11 +70,22 @@ export const Posts: CollectionConfig = {
                 name: 'content',
                 type: 'richText',
                 required: true,
+                editor: lexicalEditor({
+                  features: ({ defaultFeatures }) => [
+                    // Only allow specific features for footnote content
+                    ...defaultFeatures.filter(feature =>
+                      ['paragraph', 'bold', 'italic', 'strikethrough', 'link'].includes(feature.key)
+                    )
+                  ]
+                })
               },
               {
                 name: 'number',
                 type: 'number',
                 required: true,
+                admin: {
+                  readOnly: true, // Since this is auto-generated
+                }
               },
               {
                 name: 'category',
@@ -83,7 +94,8 @@ export const Posts: CollectionConfig = {
                   { label: 'Citation', value: 'citation' },
                   { label: 'Explanation', value: 'explanation' },
                   { label: 'Reference', value: 'reference' }
-                ]
+                ],
+                defaultValue: 'explanation'
               },
               {
                 name: 'author',
