@@ -188,9 +188,6 @@ export interface Post {
     };
     [k: string]: unknown;
   } | null;
-  /**
-   * Auto-generated HTML with footnotes
-   */
   html_content?: string | null;
   updatedAt: string;
   createdAt: string;

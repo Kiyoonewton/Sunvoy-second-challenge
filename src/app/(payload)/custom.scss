@@ -44,29 +44,22 @@
   background: #f0f0f0;
 }
 
-.fixed-toolbar .fixed-toolbar__group-features {
+.fixed-toolbar .fixed-toolbar__group-features,
+.inline-toolbar-popup .inline-toolbar-popup__group-features {
   order: 999;
-}
-.fixed-toolbar .fixed-toolbar__group-features button{
-  // order: 999;
-  padding-left: 9px;
+  display: flex;
+  flex-direction: row-reverse;
 }
 
-.fixed-toolbar .fixed-toolbar__group-format {
+.lexical-footnote-edit-drawer .btn__label {
+  font-size: 0;
   position: relative;
 }
 
-.fixed-toolbar .fixed-toolbar__group-format {
-  position: relative;
-}
-
-.fixed-toolbar .fixed-toolbar__group-format::after {
-  content: '';
+.lexical-footnote-edit-drawer .btn__label::after {
+  content: 'Submit';
+  font-size: 14px;
   position: absolute;
-  right: -6px;
-  top: 25%;
-  bottom: 25%;
-  width: 1px;
-  background-color: #ebebeb;
-  height: 15px;
+  top: 0;
+  left: 0;
 }

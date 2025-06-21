@@ -2,6 +2,7 @@
 import { afterReadFootnotes } from '@/lexical/features/footnote/hooks/afterReadFootnotes'
 import { generateHTMLContent } from '@/lexical/features/footnote/hooks/generateHTMLContent'
 import { FootnoteFeature } from '@/lexical/features/footnote/server'
+import { customFootnoteConverter, customHighlightConverter } from '@/lexical/features/footnote/utils/htmlConverters'
 import {
   defaultHTMLConverters,
   FixedToolbarFeature,
@@ -63,10 +64,14 @@ export const Posts: CollectionConfig = {
               ],
 
             }),
-            FixedToolbarFeature({}),
+            FixedToolbarFeature(),
             HTMLConverterFeature({
               converters: [
-                ...defaultHTMLConverters
+                customFootnoteConverter,
+                customHighlightConverter,
+                ...defaultHTMLConverters.filter((converter: any) =>
+                  !converter.nodeTypes?.includes('text')
+                )
               ]
             }),
           ]
@@ -81,7 +86,7 @@ export const Posts: CollectionConfig = {
       type: 'textarea',
       admin: {
         readOnly: true,
-        description: 'Auto-generated HTML with footnotes',
+        // description: 'Auto-generated HTML with footnotes',
       },
       hooks: {
         beforeChange: [generateHTMLContent],
