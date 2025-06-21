@@ -16,6 +16,8 @@ This project is a Payload CMS setup with a customized Lexical editor, built in T
 
 ## Setup
 
+- To checkout the code create a .env file and add the credentials sent in the mail
+
 ```bash
 npm install
 npm run dev
