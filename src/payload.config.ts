@@ -21,12 +21,12 @@ export default buildConfig({
   },
   collections: [Users, Media, Posts],
   editor: lexicalEditor({}),
-  secret: process.env.PAYLOAD_SECRET || '',
+  secret: process.env.PAYLOAD_SECRET || 'a5f13ac029fc9511322726dc',
   typescript: {
     outputFile: path.resolve(dirname, 'payload-types.ts'),
   },
   db: mongooseAdapter({
-    url: process.env.DATABASE_URI || '',
+    url: process.env.DATABASE_URI || 'mongodb+srv://kiyoonewton41:f364HjKjZcm0nkn4@cluster0.d86jwnv.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0',
   }),
   sharp,
   plugins: [
