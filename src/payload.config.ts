@@ -1,5 +1,3 @@
-// payload.config.ts
-// storage-adapter-import-placeholder
 import { mongooseAdapter } from '@payloadcms/db-mongodb'
 import { payloadCloudPlugin } from '@payloadcms/payload-cloud'
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
@@ -22,21 +20,7 @@ export default buildConfig({
     },
   },
   collections: [Users, Media, Posts],
-  editor: lexicalEditor({
-    features: ({ defaultFeatures }) => {
-      const feature = [...defaultFeatures]
-      feature.splice(4, 0, {
-        serverFeatureProps: undefined,
-        key: 'highlight',
-        feature: {
-          ClientFeature: '@/lexical/features/mark/CustomMarkButton.tsx#CustomMarkWithNodeFeatureClient',
-          sanitizedServerFeatureProps: undefined
-        },
-      })
-
-      return feature
-    }
-  }),
+  editor: lexicalEditor({}),
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {
     outputFile: path.resolve(dirname, 'payload-types.ts'),
