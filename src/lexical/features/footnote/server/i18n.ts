@@ -8,5 +8,4 @@ export const i18n: Partial<GenericLanguages> = {
     removeFootnote: 'Remove Footnote',
     footnoteContent: 'Footnote Content',
   },
-  // Add other languages as needed
 }

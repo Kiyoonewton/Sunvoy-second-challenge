@@ -1,0 +1,110 @@
+.footnote-preview-test {
+  position: absolute;
+  z-index: 9999;
+  background: white;
+  bottom: 10%;
+  border-radius: 4px;
+  border: none;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  padding: 0;
+  max-width: 300px;
+  font-family:
+    system-ui,
+    -apple-system,
+    sans-serif;
+  transform: translateY(-100%);
+  margin-top: -5px;
+
+  .footnote-preview-content {
+    padding: 12px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: white;
+    border-radius: 6px;
+
+    .footnote-text {
+      flex: 1;
+      font-size: 13px;
+      line-height: 1.4;
+      color: #374151;
+
+      strong {
+        color: #1f2937;
+        font-weight: 600;
+      }
+    }
+
+    .footnote-actions {
+      display: flex;
+      gap: 3px;
+      align-items: center;
+
+      .footnote-edit-btn,
+      .footnote-remove-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 25px;
+        height: 25px;
+        border: none;
+        background: white;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+
+        svg {
+          width: 18px;
+          height: 18px;
+          color: #353942;
+        }
+
+        &:hover {
+          background: #f3f4f6;
+
+          svg {
+            color: #374151;
+          }
+        }
+      }
+
+      .footnote-remove-btn:hover {
+        background: #fef2f2;
+        border-color: #fca5a5;
+
+        svg {
+          color: green;
+        }
+      }
+    }
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: -6px;
+    left: 20px;
+    width: 0;
+    height: 0;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-bottom: 6px solid white;
+  }
+}
+
+.lexical-footnote {
+  color: white;
+  border-radius: 4px;
+  border: none;
+  padding: 2px 2px;
+  border-radius: 3px;
+  font-size: 0.75em;
+  line-height: 1;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  position: relative;
+  &:hover {
+    transform: translateY(-1px);
+  }
+}

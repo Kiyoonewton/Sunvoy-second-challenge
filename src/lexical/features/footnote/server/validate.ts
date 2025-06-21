@@ -1,6 +1,5 @@
 import type { Field } from 'payload'
 import { fieldSchemasToFormState } from '@payloadcms/ui/forms/fieldSchemasToFormState'
-// import type { SerializedFootnoteNode } from '../nodes/types.js'
 import { NodeValidation } from '@payloadcms/richtext-lexical'
 import { SerializedFootnoteNode } from '../nodes/types'
 

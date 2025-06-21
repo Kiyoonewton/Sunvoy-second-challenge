@@ -2,8 +2,9 @@ import type { SerializedElementNode, SerializedLexicalNode, Spread } from 'lexic
 import type { JsonValue } from 'payload'
 
 export type FootnoteFields = {
-  content: JsonValue // Rich text content for the footnote
-  number: number // Footnote number
+  content: JsonValue
+  number: number
+  [key: string]: JsonValue 
 }
 
 export type SerializedFootnoteNode<T extends SerializedLexicalNode = SerializedLexicalNode> = Spread<

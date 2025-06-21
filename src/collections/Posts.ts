@@ -1,6 +1,13 @@
 'use strict'
+import { afterReadFootnotes } from '@/lexical/features/footnote/hooks/afterReadFootnotes'
+import { generateHTMLContent } from '@/lexical/features/footnote/hooks/generateHTMLContent'
 import { FootnoteFeature } from '@/lexical/features/footnote/server'
-import { FixedToolbarFeature, HTMLConverterFeature, lexicalEditor, lexicalHTML, LinkFeature } from '@payloadcms/richtext-lexical'
+import {
+  defaultHTMLConverters,
+  FixedToolbarFeature,
+  HTMLConverterFeature,
+  lexicalEditor,
+} from '@payloadcms/richtext-lexical'
 import type { CollectionConfig } from 'payload'
 
 export const Posts: CollectionConfig = {
@@ -18,98 +25,67 @@ export const Posts: CollectionConfig = {
       name: 'content',
       type: 'richText',
       required: false,
-      admin: {
-        description: 'Rich text content with toolbar',
-      },
       editor: lexicalEditor({
         features: ({ defaultFeatures }) => {
-          const features = [...defaultFeatures]
-
-          const filteredFeatures = features.filter(feature =>
+          const filteredFeatures = defaultFeatures.filter(feature =>
             feature.key !== 'subscript' &&
             feature.key !== 'superscript'
           )
 
-          // Add your existing highlight feature at index 4
-          filteredFeatures.splice(4, 0, {
+          const highlightFeature = {
             serverFeatureProps: undefined,
             key: 'highlight',
             feature: async () => ({
               ClientFeature: '@/lexical/features/mark/CustomMarkButton.tsx#CustomMarkWithNodeFeatureClient',
               sanitizedServerFeatureProps: undefined
             }),
-          })
+          }
 
-          // Add the footnote feature before the last item (toolbarFixed)
-          filteredFeatures.splice(1, 0, {
-            serverFeatureProps: undefined,
-            key: 'footnote',
-            feature: async () => ({
-              ClientFeature: '@/lexical/features/footnote/FootnoteButton.tsx#FootnoteFeatureClient',
-              sanitizedServerFeatureProps: undefined
+          return [
+            ...filteredFeatures,
+            highlightFeature,
+            FootnoteFeature({
+              fields: [
+                {
+                  name: 'content',
+                  type: 'richText',
+                  label: 'Footnote Content',
+                  required: true,
+                  editor: lexicalEditor({
+                    features: ({ defaultFeatures }) => {
+                      const allowedFeatures = defaultFeatures.filter(feature =>
+                        ['paragraph', 'bold', 'italic', 'strikethrough', 'link'].includes(feature.key)
+                      )
+                      return [...allowedFeatures, FixedToolbarFeature()]
+                    }
+                  })
+                },
+              ],
+
             }),
-          })
-
-          // console.log('====================================');
-          // console.log([...filteredFeatures, FixedToolbarFeature()]);
-          // console.log('====================================');
-
-          // Configure FixedToolbarFeature to include custom highlight button
-          return [...filteredFeatures, FixedToolbarFeature(), LinkFeature({
-            fields: [
-              {
-                name: 'url',
-                type: 'text',
-                required: true,
-              }]
-          }),
-          // Add custom fields to footnotes
-          FootnoteFeature({
-            fields: [
-              {
-                name: 'content',
-                type: 'richText',
-                required: true,
-                editor: lexicalEditor({
-                  features: ({ defaultFeatures }) => [
-                    // Only allow specific features for footnote content
-                    ...defaultFeatures.filter(feature =>
-                      ['paragraph', 'bold', 'italic', 'strikethrough', 'link'].includes(feature.key)
-                    )
-                  ]
-                })
-              },
-              {
-                name: 'number',
-                type: 'number',
-                required: true,
-                admin: {
-                  readOnly: true, // Since this is auto-generated
-                }
-              },
-              {
-                name: 'category',
-                type: 'select',
-                options: [
-                  { label: 'Citation', value: 'citation' },
-                  { label: 'Explanation', value: 'explanation' },
-                  { label: 'Reference', value: 'reference' }
-                ],
-                defaultValue: 'explanation'
-              },
-              {
-                name: 'author',
-                type: 'text',
-                label: 'Citation Author'
-              }
-            ]
-          }),
-          HTMLConverterFeature()]
+            FixedToolbarFeature({}),
+            HTMLConverterFeature({
+              converters: [
+                ...defaultHTMLConverters
+              ]
+            }),
+          ]
         },
       }),
+      hooks: {
+        afterRead: [afterReadFootnotes],
+      }
     },
     {
-      ...lexicalHTML('content', { name: 'html_content' }),
-    },
+      name: 'html_content',
+      type: 'textarea',
+      admin: {
+        readOnly: true,
+        description: 'Auto-generated HTML with footnotes',
+      },
+      hooks: {
+        beforeChange: [generateHTMLContent],
+      }
+    }
   ],
 }

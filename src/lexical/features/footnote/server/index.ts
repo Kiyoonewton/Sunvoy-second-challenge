@@ -1,11 +1,11 @@
-import type { Config, Field } from 'payload'
+import type { Config, Field, FieldSchemaMap } from 'payload'
 import { sanitizeFields } from 'payload'
 import { i18n } from './i18n'
 import { createNode, createServerFeature } from '@payloadcms/richtext-lexical'
 import { ClientProps } from '../client'
-import { getFootnoteBaseFields } from './baseFields'
 import { footnoteValidation } from './validate'
 import { FootnoteNode } from '../nodes/FootnoteNode'
+import { FootnoteMarkdownTransformer } from '../markdownTransformer'
 
 export type FootnoteFeatureServerProps = {
   fields?: Field[]
@@ -21,18 +21,9 @@ export const FootnoteFeature = createServerFeature<
       props = {}
     }
 
-    const baseFields = getFootnoteBaseFields()
     const customFields = props.fields || []
-
     const fieldMap = new Map()
-
-    baseFields.forEach(field => {
-      if ('name' in field) {
-        fieldMap.set(field.name, field)
-      }
-    })
-
-    // Add custom fields (they can override base fields)
+    
     customFields.forEach(field => {
       if ('name' in field) {
         fieldMap.set(field.name, field)
@@ -52,14 +43,67 @@ export const FootnoteFeature = createServerFeature<
     return {
       ClientFeature: '@/lexical/features/footnote/client/index#FootnoteFeatureClient',
       clientFeatureProps: {} as ClientProps,
+      generateSchemaMap: () => {
+        const schemaMap: FieldSchemaMap = new Map()
+
+        schemaMap.set('fields', {
+          fields: sanitizedFields,
+        })
+
+        sanitizedFields.forEach((field) => {
+          if ('name' in field) {
+            schemaMap.set(`fields.${field.name}`, field)
+          }
+        })
+
+        return schemaMap
+      },
       i18n,
+      markdownTransformers: [FootnoteMarkdownTransformer],
       nodes: [
         createNode({
           converters: {
             html: {
-              converter: async ({ node }) => {
-                const number = node.fields.number
-                return `<sup class="footnote-ref"><a href="#fn-${number}" id="fnref-${number}">${number}</a></sup>`
+              converter: async ({
+                converters,
+                currentDepth,
+                depth,
+                draft,
+                node,
+                overrideAccess,
+                parent,
+                req,
+                showHiddenFields,
+              }) => {
+                const number = node.fields?.number ?? 1
+                
+                const footnoteNumber = typeof number === 'number' && number > 0 ? number : 1
+
+                let textContent = String(footnoteNumber)
+                if (node.children && node.children.length > 0) {
+                  const { convertLexicalNodesToHTML } = await import('@payloadcms/richtext-lexical')
+
+                  const childrenText = await convertLexicalNodesToHTML({
+                    converters,
+                    currentDepth,
+                    depth,
+                    draft,
+                    lexicalNodes: node.children,
+                    overrideAccess,
+                    parent: {
+                      ...node,
+                      parent,
+                    },
+                    req,
+                    showHiddenFields,
+                  })
+
+                  if (childrenText) {
+                    textContent = childrenText
+                  }
+                }
+
+                return `<sup class="footnote-ref"><a href="#fn-${footnoteNumber}" id="fnref-${footnoteNumber}">${textContent}</a></sup>`
               },
               nodeTypes: [FootnoteNode.getType()],
             },

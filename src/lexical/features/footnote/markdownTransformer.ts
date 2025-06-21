@@ -1,7 +1,6 @@
 import { $createTextNode } from 'lexical'
 import type { TextMatchTransformer } from '@payloadcms/richtext-lexical/lexical/markdown'
 import { $createFootnoteNode, $isFootnoteNode, FootnoteNode } from './nodes/FootnoteNode'
-// import { $createFootnoteNode, $isFootnoteNode, FootnoteNode } from './nodes/FootnoteNode.js'
 
 export const FootnoteMarkdownTransformer: TextMatchTransformer = {
   type: 'text-match',

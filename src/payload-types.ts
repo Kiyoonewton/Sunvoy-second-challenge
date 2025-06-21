@@ -173,9 +173,6 @@ export interface Media {
 export interface Post {
   id: string;
   title: string;
-  /**
-   * Rich text content with toolbar
-   */
   content?: {
     root: {
       type: string;
@@ -191,6 +188,9 @@ export interface Post {
     };
     [k: string]: unknown;
   } | null;
+  /**
+   * Auto-generated HTML with footnotes
+   */
   html_content?: string | null;
   updatedAt: string;
   createdAt: string;

@@ -10,7 +10,6 @@ export const getFootnoteBaseFields = (): Field[] => {
       required: true,
       editor: lexicalEditor({
         features: ({ defaultFeatures }) => [
-          // Only allow specific features for footnote content
           ...defaultFeatures.filter(feature => 
             ['paragraph', 'bold', 'italic', 'strikethrough', 'link'].includes(feature.key)
           )

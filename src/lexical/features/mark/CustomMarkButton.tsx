@@ -13,7 +13,6 @@ import { faHighlighter } from '@fortawesome/free-solid-svg-icons'
 const CUSTOM_MARK_FORMAT: TextFormatType = 'highlight';
 const HIGHLIGHT_COLOR = 'yellow';
 
-// Custom toolbar button component
 const CustomMarkButton: React.FC = () => {
   const [editor] = useLexicalComposerContext();
   const [isActive, setIsActive] = React.useState(false);
@@ -86,7 +85,6 @@ export class CustomTextNode extends TextNode {
   }
 }
 
-// Feature with custom node - FIXED VERSION
 export const CustomMarkWithNodeFeatureClient = (props: { [key: string]: string } = {}) => {
   const toolbarConfig = {
     groups: [
